@@ -1,0 +1,41 @@
+info:
+    app:
+        name: Service Monitor
+        description: StatNLP Service Monitor
+        version: 1.0.0
+
+logging:
+    level:
+        ROOT: INFO
+        com.sutd.statnlp: INFO
+
+security:
+  user:
+    name: admin
+    password: admin
+
+spring:
+    application:
+        name: Service Monitor
+    devtools:
+        restart:
+            enabled: true
+    cloud:
+      discovery:
+        client:
+          simple:
+            instances:
+              service-monitor:
+                - uri: http://localhost:${server.port}
+                  metadata:
+                    management.context-path: /
+                    user:
+                      name: ${security.user.name}
+                      password: ${security.user.password}
+              service-mentionhypergraph:
+                - uri: http://localhost:8000
+                  metadata:
+                    management.context-path: /
+
+server:
+    port: 8090
